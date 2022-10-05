@@ -1,8 +1,7 @@
 #! /bin/bash
 #<Vars>
-PACKAGES=( base-devel kubectl k9s micro firefox git github-cli vlc )
+PACKAGES=( "base-devel" "kubectl" "kubectx" "k9s" "micro" "firefox" "git" "github-cli" "vlc" )
 declare -A USERPACKAGES=( ["yay"]="https://aur.archlinux.org/yay.git" )
-#["1password"]="https://aur.archlinux.org/1password.git" ["cider"]="https://aur.archlinux.org/cider.git" )
 YAYPACKAGES=( "1password" "cider" )
 CLEANUP=()
 #</Vars>
