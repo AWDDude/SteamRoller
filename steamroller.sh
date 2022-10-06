@@ -13,7 +13,7 @@ installPkg() {
     echoGreen "Package '${pkg}' is already installed"
   else
     echoYellow "Package '${pkg}' is missing and will now be installed"
-    sudo pacman --needed -S "${pkg}"
+    sudo pacman --noconfirm -S "${pkg}"
   fi
 }
 installUsrPkg() {
@@ -38,7 +38,7 @@ installYayPkg() {
     echoGreen "Yay package '${pkg}' is already installed"
   else
     echoYellow "Yay package '${pkg}' is missing and will now be installed"
-    yay --cleanafter --removemake -Syu "${pkg}"
+    yay --answerclean None --answerdiff None --cleanafter --removemake -Syu "${pkg}"
   fi
 }
 echoGreen() {
