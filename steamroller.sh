@@ -47,6 +47,33 @@ echoGreen() {
 echoYellow() {
   echo -e "\033[33m${1}\033[m"
 }
+echoRed() {
+  echo -e "\033[31m${1}\033[m"
+}
+bannerGreen() {
+  msg="# ${1} #"
+  echo -e "\033[1;32m"
+  yes '#'| head -n "${#msg}" | tr -d '\n'
+  echo -e "\n${msg}"
+  yes '#'| head -n "${#msg}" | tr -d '\n'
+  echo -e "\033[0m"
+}
+bannerYellow() {
+  msg="# ${1} #"
+  echo -e "\033[1;33m"
+  yes '#'| head -n "${#msg}" | tr -d '\n'
+  echo -e "\n${msg}"
+  yes '#'| head -n "${#msg}" | tr -d '\n'
+  echo -e "\033[0m"
+}
+bannerRed() {
+  msg="# ${1} #"
+  echo -e "\033[1;31m"
+  yes '#'| head -n "${#msg}" | tr -d '\n'
+  echo -e "\n${msg}"
+  yes '#'| head -n "${#msg}" | tr -d '\n'
+  echo -e "\033[0m"
+}
 mktmp() {
   local tmp=$(mktemp -d)
   CLEANUP+=( "${tmp}" )
