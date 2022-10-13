@@ -82,6 +82,7 @@ mktmp() {
 #</Functions>
 
 # determine if a password is set for deck
+bannerGreen "User Password"
 pwd=($(passwd --status))
 if [ ${pwd[1]} != "P" ]; then
   echoYellow "Password must be set for this account"
@@ -91,6 +92,7 @@ else
 fi
 
 # determine if system is currently read only
+bannerGreen "Read Only System"
 if [ $(sudo steamos-readonly status) == "enabled" ]; then
   echoYellow "Making system writable"
   sudo steamos-readonly disable
@@ -99,6 +101,7 @@ else
 fi
 
 # enable sshd
+bannerGreen "SSHD"
 if [ $(sudo systemctl is-enabled sshd) != "enabled" ]; then
   echoYellow "sshd is disabled, enabling it now"
   sudo systemctl enable sshd
@@ -107,6 +110,7 @@ else
 fi
 
 # init pacman keyring
+bannerGreen "Pacman"
 if [ -f "/etc/pacman.d/gnupg/gpg.conf" ]; then 
   echoGreen "Pacman keyring already initialized"
 else
@@ -127,11 +131,13 @@ echoGreen "Refreshing package database and updating out of date packages"
 sudo pacman -Syu
 
 # install packages
+bannerGreen "Packages"
 for pkg in "${PACKAGES[@]}"; do
   installPkg "${pkg}"
 done
 
 # install user packages
+bannerGreen "User Packages"
 for upkg in "${!USERPACKAGES[@]}"; do
   installUsrPkg "${upkg}" "${USERPACKAGES[$upkg]}"
 done
@@ -140,12 +146,16 @@ echoGreen "Refreshing yay packages and updating out of date packages"
 yay -Sua
 
 # install yay packages
+bannerGreen "Yay Packages"
 for pkg in "${YAYPACKAGES[@]}"; do
   installYayPkg "${pkg}"
 done
 
 # clean up temp files
+bannerGreen "Clean up"
 for tmp in "${CLEANUP[@]}"; do
   echoGreen "Cleaning up '${tmp}'"
   rm -rf "${tmp}"
 done
+
+bannerGreen "Complete"
