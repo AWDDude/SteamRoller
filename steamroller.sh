@@ -138,6 +138,10 @@ else
   echoGreen "fs trim timer configured correctly"
 fi
 
+# run fstrim
+bannerGreen "Running FsTrim"
+sudo fstrim -v /
+
 # enable sshd
 bannerGreen "SSHD"
 if [ $(sudo systemctl is-enabled sshd) != "enabled" ]; then
@@ -180,7 +184,8 @@ for upkg in "${!USERPACKAGES[@]}"; do
   installUsrPkg "${upkg}" "${USERPACKAGES[$upkg]}"
 done
 
-echoGreen "Refreshing yay packages and updating out of date packages"
+# update yay packages
+bannerGreen "Refreshing yay packages and updating out of date packages"
 yay -Sua
 
 # install yay packages
