@@ -4,6 +4,8 @@ PACKAGES=( "base-devel" "kubectl" "kubectx" "k9s" "micro" "firefox" "git" "githu
 declare -A USERPACKAGES=( ["yay"]="https://aur.archlinux.org/yay.git" )
 YAYPACKAGES=( "1password" "cider" )
 CLEANUP=()
+SWAPGB=8
+SWAPPINESS=1
 #</Vars>
 
 #<Functions>
@@ -98,6 +100,42 @@ if [ $(sudo steamos-readonly status) == "enabled" ]; then
   sudo steamos-readonly disable
 else
   echoGreen "System is already writable"
+fi
+
+# increase swapfile size
+bannerGreen "Swap File Size"
+currentSwapBytes=$(ls -l /home/swapfile | awk '{print $5}')
+swapBytes=$((SWAPGB * 1024 * 1024 * 1024))
+if [ "${swapBytes}" != "${currentSwapBytes}" ]; then
+  echoYellow "resizing swapfile"
+  sudo swapoff -a
+  sudo dd if=/dev/zero of=/home/swapfile bs=1G count=$SWAPGB status=none
+  sudo chmod 0600 /home/swapfile
+  sudo mkswap /home/swapfile
+  sudo swapon /home/swapfile
+else
+  echoGreen "swapfile configured correctly"
+fi
+
+# decrease swappiness
+bannerGreen "Swappiness"
+currentswappiness=$(sysctl vm.swappiness | awk '{print $3}')
+if [ "${SWAPPINESS}" != "${currentswappiness}" ]; then
+  echoYellow "updating swappiness configuration"
+  echo "vm.sappiness=$SWAPPINESS" | sudo tee /etc/sysctl.d/swappiness.conf
+  sudo sysctl -w vm.swappiness=1
+else
+  echoGreen "swappiness configured correctly"
+fi
+
+# enable fstrim timer
+bannerGreen "Fs Trim Timer"
+systemctl list-timers | grep fstrim &>/dev/null
+if [ "$?" == "1" ]; then
+  echoYellow "enabling fs trim timer"
+  sudo systemctl enable --now fstrim.timer &>/dev/null
+else
+  echoGreen "fs trim timer configured correctly"
 fi
 
 # enable sshd
