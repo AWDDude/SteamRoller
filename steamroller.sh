@@ -36,7 +36,7 @@ installUsrPkg() {
 }
 installYayPkg() {
   local pkg="${1}"
-  if pacman -Qs "${pkg}" &> /dev/null; then
+  if yay -Q "${pkg}" &> /dev/null; then
     echoGreen "Yay package '${pkg}' is already installed"
   else
     echoYellow "Yay package '${pkg}' is missing and will now be installed"
