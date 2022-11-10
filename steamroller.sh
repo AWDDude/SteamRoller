@@ -1,8 +1,8 @@
 #! /bin/bash
 #<Vars>
-PACKAGES=( "base-devel" "kubectl" "kubectx" "k9s" "micro" "firefox" "git" "github-cli" "vlc" )
+PACKAGES=( "base-devel" "git" )
 declare -A USERPACKAGES=( ["yay"]="https://aur.archlinux.org/yay.git" )
-YAYPACKAGES=( "1password" "cider" )
+YAYPACKAGES=( "1password" "cider" "discord" "vlc" "kubectl" "kubectx" "k9s" "micro" "firefox" "github-cli" "protonup-qt-bin" )
 CLEANUP=()
 SWAPGB=8
 SWAPPINESS=1
