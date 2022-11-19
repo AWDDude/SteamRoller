@@ -16,4 +16,6 @@ Automatic Configurator for the SteamDeck
 * Install `yay` and update packages
 * install packages with `yay`
 
+## Credit where credit is due
 
+I got most/all of the commands used to configure kernel swappiness, the swapfile size, and FSTrim from [CryoByte33](https://github.com/CryoByte33/steam-deck-utilities)
